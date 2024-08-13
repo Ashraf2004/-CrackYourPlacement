@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -40,4 +41,48 @@ class Solution {
         head = prev;
         return head;
     }
+=======
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode curr = head;
+        List<Integer> lst = new ArrayList<>();
+        while(curr != null){
+            lst.add(curr.val);
+            curr = curr.next;
+        }
+        ListNode newHead = reverse(head);
+        int i=0;
+        while(newHead != null){
+            if(lst.get(i) != newHead.val){
+                return false;
+            }
+            i++;
+            newHead = newHead.next;
+        }
+        return true;
+    }
+    static ListNode reverse(ListNode head){
+        ListNode prev = null;
+        ListNode curr = head;
+        ListNode next = null;
+        while(curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+        return head;
+    }
+>>>>>>> 922ad6b3734924bf79fcd09780065fb435d4baaa
 }
