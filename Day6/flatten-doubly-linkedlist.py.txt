@@ -1,0 +1,19 @@
+class Solution {
+    public Node flatten(Node head) {
+        Node temp = head;
+        Stack<Node> stack = new Stack<>();
+        while(temp != null){
+            if(temp.child != null){
+                if(temp.next != null) stack.push(temp.next);
+                    temp.next = temp.child;
+                    temp.next.prev = temp;
+                    temp.child = null;
+                }else if(!stack.isEmpty() && temp.next == null){
+                    temp.next = stack.pop();
+                    temp.next.prev = temp;
+                }
+            temp =temp.next;
+        }
+        return head;
+    }
+}
