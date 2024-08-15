@@ -1,0 +1,45 @@
+import java.util.Stack;
+
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+
+        for (String s : tokens) {
+            if (isNumber(s)) {
+                stack.push(Integer.parseInt(s));
+            } else {
+                
+                int y = stack.pop();
+                int x = stack.pop();
+                
+                switch (s) {
+                    case "+":
+                        stack.push(x + y);
+                        break;
+                    case "-":
+                        stack.push(x - y);
+                        break;
+                    case "*":
+                        stack.push(x * y);
+                        break;
+                    case "/":
+                        stack.push(x / y);
+                        break;
+                    
+                }
+            }
+        }
+
+
+        return stack.pop();
+    }
+
+    private boolean isNumber(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+}
