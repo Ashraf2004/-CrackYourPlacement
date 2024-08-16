@@ -1,0 +1,46 @@
+import java.util.*;
+
+class Solution {
+    // Method to return a list of elements in spiral order from the given matrix
+    public List<Integer> spiralOrder(int[][] matrix) {
+        // Initialize list to store the spiral order elements
+        List<Integer> lst = new ArrayList<Integer>();
+        // Get the number of rows and columns in the matrix
+        int row = matrix.length;
+        int col = matrix[0].length;
+        // Initialize variables to track the boundaries of the matrix
+        int top = 0;
+        int bottom = row - 1;
+        int left = 0;
+        int right = col - 1;
+        
+        // Iterate until all elements are added to the list
+        while (lst.size() < row * col) {
+            // Traverse the top row
+            for (int i = left; i <= right && lst.size() < row * col; i++) {
+                lst.add(matrix[top][i]);
+            }
+            top++; // Move to the next row
+            
+            // Traverse the right column
+            for (int j = top; j <= bottom && lst.size() < row * col; j++) {
+                lst.add(matrix[j][right]);
+            }
+            right--; // Move to the previous column
+            
+            // Traverse the bottom row
+            for (int k = right; k >= left && lst.size() < row * col; k--) {
+                lst.add(matrix[bottom][k]);
+            }
+            bottom--; // Move to the previous row
+            
+            // Traverse the left column
+            for (int l = bottom; l >= top && lst.size() < row * col; l--) {
+                lst.add(matrix[l][left]);
+            }
+            left++; // Move to the next column
+        }
+
+        return lst; // Return the list of elements in spiral order
+    }
+}

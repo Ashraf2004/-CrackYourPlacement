@@ -1,0 +1,107 @@
+import java.util.Stack;
+
+class Solution {
+    public int calculate(String s) {
+        String exp = postfix(s.replaceAll("\\s", "")); // Remove whitespace
+        System.out.println("Postfix Expression: " + exp); // Debug output
+        Stack<Integer> st = new Stack<>();
+        
+        for (int i = 0; i < exp.length(); i++) {
+            char c = exp.charAt(i);
+            
+            if (Character.isDigit(c)) {
+                int num = 0;
+                while (i < exp.length() && Character.isDigit(exp.charAt(i))) {
+                    num = num * 10 + (exp.charAt(i) - '0');
+                    i++;
+                }
+                 // Adjust for extra increment in the loop
+                st.push(num);
+            } else {
+                
+                
+                int y = st.pop();
+                int x = st.pop();
+                
+                switch (c) {
+                    case '+':
+                        st.push(x + y);
+                        break;
+                    case '-':
+                        st.push(x - y);
+                        break;
+                    case '*':
+                        st.push(x * y);
+                        break;
+                    case '/':
+                        st.push(x / y);
+                        break;
+                }
+            }
+        }
+        
+        
+        
+        return st.pop();  // Return the final result
+    }
+
+    static String postfix(String s) {
+        Stack<Character> stack = new Stack<>();
+        StringBuilder res = new StringBuilder();
+        
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            
+            if (Character.isDigit(c)) {
+                while (i < s.length() && Character.isDigit(s.charAt(i))) {
+                    res.append(s.charAt(i));
+                    i++;
+                }
+                i--;  // Adjust for extra increment in the loop
+                res.append(' '); // Add a space to separate numbers
+            } else if (c == '(') {
+                stack.push(c);
+            } else if (c == ')') {
+                while (!stack.isEmpty() && stack.peek() != '(') {
+                    res.append(stack.pop());
+                }
+                if (!stack.isEmpty()) {
+                    stack.pop();  // Pop the '('
+                }
+            } else {
+                while (!stack.isEmpty() && (prec(c) <= prec(stack.peek()) && asso(c) == 'L')) {
+                    res.append(stack.pop());
+                }
+                stack.push(c);
+            }
+        }
+        
+        while (!stack.isEmpty()) {
+            res.append(stack.pop());
+        }
+        
+        return res.toString().trim();
+    }
+
+    static int prec(char c) {
+        switch (c) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            case '^':
+                return 3;
+            default:
+                return -1;
+        }
+    }
+
+    static char asso(char c) {
+        if (c == '^') {
+            return 'R';  // Right associativity for '^'
+        }
+        return 'L';  // Left associativity for other operators
+    }
+}
