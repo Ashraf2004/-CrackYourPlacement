@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         Arrays.sort(nums);
@@ -35,3 +36,42 @@ class Solution {
         return new ArrayList<>(res);
     }
 }
+=======
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        Set<List<Integer>> res = new HashSet<>();
+        
+        for (int a = 0; a < nums.length - 3; a++) {
+            if (a > 0 && nums[a] == nums[a-1]) continue; // Skip duplicates
+            
+            for (int b = a + 1; b < nums.length - 2; b++) {
+                if (b > a + 1 && nums[b] == nums[b-1]) continue; // Skip duplicates
+                
+                int i = b + 1;
+                int j = nums.length - 1;
+                
+                while (i < j) {
+                    long sum = (long)nums[a] + nums[b] + nums[i] + nums[j];
+                    
+                    if (sum == target) {
+                        res.add(Arrays.asList(nums[a], nums[b], nums[i], nums[j]));
+                        
+                        while (i < j && nums[i] == nums[i+1]) i++; // Skip duplicates
+                        while (i < j && nums[j] == nums[j-1]) j--; // Skip duplicates
+                        
+                        i++;
+                        j--;
+                    } else if (sum < target) {
+                        i++;
+                    } else {
+                        j--;
+                    }
+                }
+            }
+        }
+        
+        return new ArrayList<>(res);
+    }
+}
+>>>>>>> fcc73aab1847865efb6ae6b5d876eea671c2f439
