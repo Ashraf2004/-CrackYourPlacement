@@ -1,0 +1,89 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        ListNode curr = head;
+        List<Integer> lst = new ArrayList<>();
+        while(curr != null){
+            lst.add(curr.val);
+            curr = curr.next;
+        }
+        divide(lst, 0, lst.size()-1);
+        curr = head;
+        int i = 0;
+        while(curr != null){
+            curr.val = lst.get(i);
+            i++;
+            curr = curr.next;
+        }
+        return head;
+    }
+    static void divide(List<Integer> arr, int si, int ei){
+        if(si < ei){
+            int mid = (si + ei)/2;
+            divide(arr, si, mid);
+            divide(arr, mid+1, ei);
+            conqure(arr, si, mid, ei);
+        }
+    }
+    static void conqure(List<Integer> arr, int si, int mid, int ei){
+        List<Integer> merged = new ArrayList<>();
+        int x = 0;
+        int ind1 = si;
+        int ind2 = mid+1;
+        while(ind1<=mid && ind2<=ei){
+            if(arr.get(ind1)<arr.get(ind2)){
+                merged.add(arr.get(ind1));
+                ind1++;
+            }else{
+                merged.add(arr.get(ind2));
+                ind2++;
+            }
+        }
+        while(ind1<=mid){
+            merged.add(arr.get(ind1));
+            ind1++;
+        }
+        while(ind2<=ei){
+            merged.add(arr.get(ind2));
+            ind2++;
+        }
+        for(int i=0, j=si; i<merged.size(); i++, j++){
+            arr.set(j, merged.get(i));
+        }
+    }
+    // static void quicksort(List<Integer> arr, int low, int high){
+    //     if(low<high){
+    //     int pidx = partition(arr, low, high);
+    //     quicksort(arr, low, pidx-1);
+    //     quicksort(arr, pidx+1, high);
+    //     }
+    // }
+    // static int partition(List<Integer> arr, int low, int high){
+    //     int pivot = arr.get(high);
+    //     int i = low-1;
+    //     while(low < high){
+    //         if(arr.get(low) < pivot){
+    //             i++;
+    //             int temp = arr.get(i);
+    //             arr.set(i, arr.get(low));
+    //             arr.set(low, temp);
+    //         }
+    //         low++;
+    //     }
+    //     i++;
+    //     int temp1 = arr.get(i);
+    //     arr.set(i, arr.get(high));
+    //     arr.set(high, temp1);
+
+    //     return i;
+    // }
+}
