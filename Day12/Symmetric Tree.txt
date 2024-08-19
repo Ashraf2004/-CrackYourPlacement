@@ -1,0 +1,73 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        List<List<Integer>> lst = levelordertrav(root);
+        System.out.print(lst);
+        for(List<Integer> ls : lst){
+            for(int i=0, j=ls.size()-1; i<j; i++, j--){
+                if(ls.get(i) != ls.get(j)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    static List<List<Integer>> levelordertrav(TreeNode root){
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> lst = new ArrayList<>();
+        if(root == null){
+            return res;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        queue.add(null);
+        while(!queue.isEmpty()){
+            TreeNode curr = queue.poll();
+            if(curr == null){
+                res.add(lst);
+                if(!queue.isEmpty()){
+                    lst = new ArrayList<>();
+                    queue.add(null);
+                }
+                else{
+                    break;
+                }
+            }
+            else if(curr.val == -10){
+                lst.add(-10);
+            }
+            else{
+                lst.add(curr.val);
+                if(curr.left != null){
+                    queue.add(curr.left);
+                }
+                else{
+                    TreeNode node = new TreeNode(-10);
+                    queue.add(node);
+                }
+                if(curr.right != null){
+                    queue.add(curr.right);
+                }
+                else{
+                    TreeNode node = new TreeNode(-10);
+                    queue.add(node);
+                }
+            }
+        }
+        return res;
+    }
+}
