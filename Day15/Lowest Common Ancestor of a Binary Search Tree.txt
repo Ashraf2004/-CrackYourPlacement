@@ -1,0 +1,55 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // Lists to store paths from root to p and q
+        List<Integer> lst1 = new ArrayList<>();
+        List<Integer> lst2 = new ArrayList<>();
+
+        // Populate the lists with the paths
+        pot(root, p, lst1);
+        pot(root, q, lst2);
+
+        // Find the last common value in both lists
+        int i = 0;
+        while (i < lst1.size() && i < lst2.size()) {
+            if (!lst1.get(i).equals(lst2.get(i))) {
+                break;
+            }
+            i++;
+        }
+
+        // The last common value is the LCA
+        return new TreeNode(lst1.get(i - 1));
+    }
+
+    static void pot(TreeNode root, TreeNode p, List<Integer> lst) {
+        // Base case: If the root is null, return
+        if (root == null) {
+            return;
+        }
+
+        // Add the current node's value to the list
+        lst.add(root.val);
+
+        // If the current node is the target node, return
+        if (root.val == p.val) {
+            return;
+        }
+
+        // Recur down the tree according to the BST property
+        if (root.val > p.val) {
+            pot(root.left, p, lst);
+        } else {
+            pot(root.right, p, lst);
+        }
+    }
+}
