@@ -1,0 +1,19 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> lst = new ArrayList<>();
+        solve("", 0, 0, lst, n);
+        return lst;
+    }
+    static void solve(String str, int open, int close, List<String> lst, int n){
+        if(str.length() == 2*n){
+            lst.add(str);
+            return;
+        }
+        if(open < n){
+            solve(str+"(", open+1, close, lst, n);
+        }
+        if(close<open){
+            solve(str+")", open, close+1, lst, n);
+        }
+    }
+}
